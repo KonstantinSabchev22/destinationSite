@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 
 // Sync models with the database
 sequelize.sync({ alter: true }) // This will alter the tables to match the models
