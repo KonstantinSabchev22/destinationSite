@@ -7,6 +7,7 @@ const sequelize = require('./database/database');
 const models = require('./models');
 
 var indexRouter = require('./routes/index');
+var placesRouter = require('./routes/places');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -33,6 +34,7 @@ sequelize.sync({ alter: true }) // This will alter the tables to match the model
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/places', placesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

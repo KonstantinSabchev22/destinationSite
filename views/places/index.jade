@@ -1,0 +1,7 @@
+extends ../layout
+
+block content
+  h1 All Places
+  ul
+    each place in places
+      li= place.name
