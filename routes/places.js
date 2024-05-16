@@ -15,4 +15,25 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+router.get('/new', function(req, res, next) {
+  res.render('places/newPlace');
+});
+
+router.post('/new', async function(req, res, next){
+  const name = req.body.name;
+  const howToReach = req.body.howToReach;
+  const description = req.body.description;
+  const phone = req.body.phone;
+
+  const data = {
+    name: name,
+    howToReach: howToReach,
+    description: description,
+    phone: phone
+  };
+
+  await Places.create(data);
+  res.redirect('/places');
+});
+
 module.exports = router;

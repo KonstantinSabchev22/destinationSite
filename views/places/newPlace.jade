@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+    form(action='/places/new' method='POST') 
+        .form-group
+            label(for="name") Name
+            input.form-control(type="text" name="name")
+        .form-group
+            label(for="howToReach") How To Reach
+            input.form-control(type="text" name="howToReach")
+        .form-group 
+            label(for="description") Description
+            input.form-control(type="text" name="description")
+        .form-group 
+            label(for="phone") Phone
+            input.form-control(type="text" name="phone")  
+        button.btn.btn-primary(type="submit") Submit
+
+
+     

@@ -15,3 +15,13 @@ a {
 .main-content {
   max-width: 95%;
 }
+
+.card-img-top {
+  max-height: 200px;
+  width: fit-content;
+  object-fit: contain;
+}
+
+.card {
+  align-items: center;
+}
