@@ -15,6 +15,19 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+router.get('/:id', async function(req, res, next) {
+  try {
+    const placeId = req.params.id;
+    const place = await Places.findByPk(placeId);
+    if (!place) {
+      return res.status(404).send('Place not found');
+    }
+    res.render('places/placeDetails', { place: place });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/new', function(req, res, next) {
   res.render('places/newPlace');
 });

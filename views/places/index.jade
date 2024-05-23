@@ -11,4 +11,4 @@ block content
                     .card-body
                         h5.card-title= place.name
                         p.card-text= place.description.substr(1, 100)
-                        a.btn.btn-primary(href='#') Go somewhere
+                        a.btn.btn-primary(href=`/places/${place.id}`) Go somewhere

@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    h1= place.name
+    .container
+        .row
+            .col-lg-6
+                img(src=place.imageUrl alt=place.name style='width: 100%;')
+            .col-lg-6
+                .card
+                    .card-body
+                        h5.card-title Description
+                        p.card-text= place.description
+                        h5.card-title How to Reach
+                        p.card-text= place.howToReach
+                        h5.card-title Phone
+                        p.card-text= place.phone
+                        a.btn.btn-secondary(href='/places') Back to all places
