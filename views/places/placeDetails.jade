@@ -9,10 +9,11 @@ block content
             .col-lg-6
                 .card
                     .card-body
-                        h5.card-title Description
+                        h5.card-title Описание
                         p.card-text= place.description
-                        h5.card-title How to Reach
+                        h5.card-title Местоположение
                         p.card-text= place.howToReach
-                        h5.card-title Phone
+                        h5.card-title Тел.
                         p.card-text= place.phone
-                        a.btn.btn-secondary(href='/places') Back to all places
+                        a.btn.btn-primary(href='/places/' + place.id + '/edit') Промени
+                        a.btn.btn-secondary(href='/places') Назад

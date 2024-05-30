@@ -3,18 +3,18 @@ extends ../layout
 block content
     form(action='/places/new' method='POST') 
         .form-group
-            label(for="name") Name
+            label(for="name") Наименование
             input.form-control(type="text" name="name")
         .form-group
-            label(for="howToReach") How To Reach
+            label(for="howToReach") Местоположение
             input.form-control(type="text" name="howToReach")
         .form-group 
-            label(for="description") Description
+            label(for="description") Описание
             input.form-control(type="text" name="description")
         .form-group 
-            label(for="phone") Phone
+            label(for="phone") Телефон
             input.form-control(type="text" name="phone")  
-        button.btn.btn-primary(type="submit") Submit
+        button.btn.btn-primary(type="submit") Изпращане
 
 
      

@@ -15,6 +15,10 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+router.get('/new', function(req, res, next) {
+  res.render('places/newPlace');
+});
+
 router.get('/:id', async function(req, res, next) {
   try {
     const placeId = req.params.id;
@@ -28,8 +32,42 @@ router.get('/:id', async function(req, res, next) {
   }
 });
 
-router.get('/new', function(req, res, next) {
-  res.render('places/newPlace');
+router.get('/:id/edit', async function(req, res, next) {
+  try {
+    const placeId = req.params.id;
+    const place = await Places.findByPk(placeId);
+    if (!place) {
+      return res.status(404).send('Place not found');
+    }
+    res.render('places/editPlace', { place: place });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/:id/edit', async function(req, res, next) {
+  try {
+    const placeId = req.params.id;
+    const { name, howToReach, description, phone, imageUrl } = req.body;
+
+    const place = await Places.findByPk(placeId);
+    if (!place) {
+      return res.status(404).send('Place not found');
+    }
+
+    // Update the place with new data
+    await place.update({
+      name: name,
+      howToReach: howToReach,
+      description: description,
+      phone: phone,
+      imageUrl: imageUrl
+    });
+
+    res.redirect(`/places/${placeId}`);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post('/new', async function(req, res, next){
