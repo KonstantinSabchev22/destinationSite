@@ -5,7 +5,7 @@ const Places = sequelize.define('Places',{
 
     name: {
         type: DataTypes.STRING,
-        allowNul: false
+        allowNull: false
     },
     description: {
         type: DataTypes.TEXT,
@@ -17,7 +17,7 @@ const Places = sequelize.define('Places',{
     },
     imageUrl: {
         type: DataTypes.STRING,
-        allowNul: true
+        allowNull: true
     },
     phone: {
         type: DataTypes.STRING,
