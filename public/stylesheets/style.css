@@ -25,3 +25,7 @@ a {
 .card {
   align-items: center;
 }
+
+.link-icon {
+  padding: 0px 8px;
+}
