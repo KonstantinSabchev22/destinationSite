@@ -4,7 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const sequelize = require('./database/database');
+var session = require('express-session');
+const passport = require('./configuration/passport');
 const models = require('./models');
+const flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var placesRouter = require('./routes/places');
@@ -34,6 +37,23 @@ sequelize.sync({ alter: true }) // This will alter the tables to match the model
     console.error('Unable to synchronize models:', err);
   });
 
+// Session middleware
+app.use(session({
+  secret: 'h4@d%e<.9J0l!?.jkL30#gW2%oq!sA32)Vd*P5eW#q', // Replace with your own secret key
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false } // Set secure to true if using HTTPS
+}));
+
+// Flash middleware
+app.use(flash());
+
+// Initialize Passport and restore authentication state, if any, from the session.
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// Add routers
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/places', placesRouter);

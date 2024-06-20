@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+    .container
+        .row.justify-content-center
+            .col-md-6
+                h2 Регистрация
+                form(action='/users/register' method='POST')
+                    .mb-3
+                        label.form-label(for='firstName') Име
+                        input.form-control(type='text' id='firstName' name='firstName' required)
+                    .mb-3
+                        label.form-label(for='lastName') Фамилия
+                        input.form-control(type='text' id='lastName' name='lastName' required)
+                    .mb-3
+                        label.form-label(for='email') Имейл
+                        input.form-control(type='email' id='email' name='email' required)
+                    .mb-3
+                        label.form-label(for='password') Парола
+                        input.form-control(type='password' id='password' name='password' required)
+                    button.btn.btn-primary(type='submit') Регистрация
