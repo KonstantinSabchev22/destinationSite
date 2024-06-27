@@ -52,6 +52,11 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Middleware to make `user` available in all templates
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 
 // Add routers
 app.use('/', indexRouter);

@@ -2,6 +2,7 @@ var express = require('express');
 const passport = require('../configuration/passport');
 var router = express.Router();
 const User = require('../models/User');
+const middleware = require('../middleware/auth');
 
 
 // GET register form
@@ -33,4 +34,12 @@ router.post('/login', passport.authenticate('local', {
   failureFlash: true
 }));
 
+router.get('/logout', middleware.ensureAuthenticated, function(req, res, next) {
+  req.logout(function(err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/');
+  });
+});
 module.exports = router;

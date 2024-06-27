@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { Op } = require('sequelize');
 const Places = require('../models/Places');
+const middleware = require('../middleware/auth');
 
 router.get('/', async function(req, res, next) {
   try {
@@ -32,8 +33,25 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-router.get('/new', function(req, res, next) {
+router.get('/new', middleware.ensureAuthenticated, function(req, res, next) {
   res.render('places/newPlace');
+});
+
+router.post('/new', middleware.ensureAuthenticated, async function(req, res, next){
+  const name = req.body.name;
+  const howToReach = req.body.howToReach;
+  const description = req.body.description;
+  const phone = req.body.phone;
+
+  const data = {
+    name: name,
+    howToReach: howToReach,
+    description: description,
+    phone: phone
+  };
+
+  await Places.create(data);
+  res.redirect('/places');
 });
 
 router.get('/:id', async function(req, res, next) {
@@ -49,7 +67,7 @@ router.get('/:id', async function(req, res, next) {
   }
 });
 
-router.get('/:id/edit', async function(req, res, next) {
+router.get('/:id/edit', middleware.ensureAuthenticated, async function(req, res, next) {
   try {
     const placeId = req.params.id;
     const place = await Places.findByPk(placeId);
@@ -62,7 +80,7 @@ router.get('/:id/edit', async function(req, res, next) {
   }
 });
 
-router.post('/:id/edit', async function(req, res, next) {
+router.post('/:id/edit', middleware.ensureAuthenticated, async function(req, res, next) {
   try {
     const placeId = req.params.id;
     const { name, howToReach, description, phone, imageUrl } = req.body;
@@ -85,23 +103,6 @@ router.post('/:id/edit', async function(req, res, next) {
   } catch (error) {
     next(error);
   }
-});
-
-router.post('/new', async function(req, res, next){
-  const name = req.body.name;
-  const howToReach = req.body.howToReach;
-  const description = req.body.description;
-  const phone = req.body.phone;
-
-  const data = {
-    name: name,
-    howToReach: howToReach,
-    description: description,
-    phone: phone
-  };
-
-  await Places.create(data);
-  res.redirect('/places');
 });
 
 module.exports = router;

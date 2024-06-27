@@ -16,22 +16,29 @@ html
           ul.navbar-nav.me-auto.mb-2.mb-lg-0
             li.nav-item
               a.nav-link.active(aria-current='page' href='/') Начало
-            li.nav-item
-              a.nav-link(href='/places/new') Добави дестинация
+            if user
+              li.nav-item
+                a.nav-link(href='/places/new') Добави дестинация
             li.nav-item
               a.nav-link(href='/places') Всички дестинации
           form.d-flex(action='/places' method='GET' role='search')
             input.form-control.me-2(name='placeFilter' type='search' placeholder='Дестинация' aria-label='Search')
             button.btn.btn-outline-success(type='submit') Търси
           ul.nav.navbar-nav.navbar-right
-            li.nav-item
-              a.nav-link(href='/users/register')
-                i.fas.fa-user.link-icon
-                span Регистрация
-            li.nav-item
-              a.nav-link(href='/users/login')
-                i.fas.fa-sign-in-alt.link-icon
-                span Влизане
+            if !user
+              li.nav-item
+                a.nav-link(href='/users/register')
+                  i.fas.fa-user.link-icon
+                  span Регистрация
+              li.nav-item
+                a.nav-link(href='/users/login')
+                  i.fas.fa-sign-in-alt.link-icon
+                  span Влизане
+            else 
+              li.nav-item
+                a.nav-link(href='/users/logout')
+                  i.fas.fa-sign-in-alt.link-icon
+                  span Изход
     .main-content
       block content
     script(src="/bootstrap/js/bootstrap.bundle.min.js")
