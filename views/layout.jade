@@ -17,8 +17,9 @@ html
             li.nav-item
               a.nav-link.active(aria-current='page' href='/') Начало
             if user
-              li.nav-item
-                a.nav-link(href='/places/new') Добави дестинация
+              if user.role == 'admin'
+                li.nav-item
+                  a.nav-link(href='/places/new') Добави дестинация
             li.nav-item
               a.nav-link(href='/places') Всички дестинации
           form.d-flex(action='/places' method='GET' role='search')

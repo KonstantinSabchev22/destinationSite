@@ -33,11 +33,11 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-router.get('/new', middleware.ensureAuthenticated, function(req, res, next) {
+router.get('/new', middleware.ensureRole("admin"), function(req, res, next) {
   res.render('places/newPlace');
 });
 
-router.post('/new', middleware.ensureAuthenticated, async function(req, res, next){
+router.post('/new', middleware.ensureRole("admin"), async function(req, res, next){
   const name = req.body.name;
   const howToReach = req.body.howToReach;
   const description = req.body.description;
@@ -67,7 +67,7 @@ router.get('/:id', async function(req, res, next) {
   }
 });
 
-router.get('/:id/edit', middleware.ensureAuthenticated, async function(req, res, next) {
+router.get('/:id/edit', middleware.ensureRole("admin"), async function(req, res, next) {
   try {
     const placeId = req.params.id;
     const place = await Places.findByPk(placeId);
@@ -80,7 +80,7 @@ router.get('/:id/edit', middleware.ensureAuthenticated, async function(req, res,
   }
 });
 
-router.post('/:id/edit', middleware.ensureAuthenticated, async function(req, res, next) {
+router.post('/:id/edit', middleware.ensureRole("admin"), async function(req, res, next) {
   try {
     const placeId = req.params.id;
     const { name, howToReach, description, phone, imageUrl } = req.body;

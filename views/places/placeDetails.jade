@@ -16,5 +16,6 @@ block content
                         h5.card-title Тел.
                         p.card-text= place.phone
                         if user
-                            a.btn.btn-primary(href='/places/' + place.id + '/edit') Промени
+                            if user.role == 'admin'
+                                a.btn.btn-primary(href='/places/' + place.id + '/edit') Промени
                         a.btn.btn-secondary(href='/places') Назад
