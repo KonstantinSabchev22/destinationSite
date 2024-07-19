@@ -29,3 +29,8 @@ a {
 .link-icon {
   padding: 0px 8px;
 }
+
+.error {
+  color: red;
+  font-size: 0.9em;
+}

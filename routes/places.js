@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { Op } = require('sequelize');
 const Places = require('../models/Places');
+const UserPlaces = require('../models/UserPlaces');
 const middleware = require('../middleware/auth');
 
 router.get('/', async function(req, res, next) {
@@ -61,7 +62,14 @@ router.get('/:id', async function(req, res, next) {
     if (!place) {
       return res.status(404).send('Place not found');
     }
-    res.render('places/placeDetails', { place: place });
+
+    const isFavorite = await UserPlaces.findOne({
+      where: {
+        userId: req.user.id,
+        placeId: placeId,
+      }
+    });
+    res.render('places/placeDetails', { place: place, isFavorite: !!isFavorite });
   } catch (error) {
     next(error);
   }
@@ -103,6 +111,33 @@ router.post('/:id/edit', middleware.ensureRole("admin"), async function(req, res
   } catch (error) {
     next(error);
   }
+});
+
+router.get('/:id/add-favorite', middleware.ensureAuthenticated, async function(req, res, next){
+const data = {
+  userId: req.user.id,
+  placeId: req.params.id,
+};
+
+try {
+  // Check if the place is already added as a favorite
+  const existingFavorite = await UserPlaces.findOne({ where: data });
+
+  if (existingFavorite) {
+    // If yes, remove it
+    await existingFavorite.destroy();
+    return res.status(200).send("Place removed from favorites");
+  } else {
+    // If not, add it
+    await UserPlaces.create(data);
+    return res.status(200).send("Place added to favorites");
+  }
+} catch (error) {
+  // Handle errors
+  console.error(error);
+  return res.status(500).send("An error occurred while processing your request");
+}
+
 });
 
 module.exports = router;

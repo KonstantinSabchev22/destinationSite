@@ -16,6 +16,37 @@ block content
                         h5.card-title Тел.
                         p.card-text= place.phone
                         if user
+                            if isFavorite
+                                button.btn.btn-outline-primary(onclick="toggleFavorite('#{place.id}', this)") Премахни от любими
+                            else
+                                button.btn.btn-primary(onclick="toggleFavorite('#{place.id}', this)") Дибави в любими
                             if user.role == 'admin'
                                 a.btn.btn-primary(href='/places/' + place.id + '/edit') Промени
                         a.btn.btn-secondary(href='/places') Назад
+    script. 
+        async function toggleFavorite(placeId, button) {
+            try {
+                const response = await fetch(`/places/${placeId}/add-favorite`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.text();
+
+                if (response.ok){
+                    if (result.includes("added")) {
+                        button.className = "btn btn-outline-primary";
+                        button.innerHTML = "Премахни от любими";
+                    } else {
+                        button.className = "btn btn-primary";
+                        button.innerHTML = "Добави в любими";
+                    }
+                } else {
+                    console.error('Request problem.');
+                }
+            } catch(error) {
+                console.error(error);
+            }
+        }
