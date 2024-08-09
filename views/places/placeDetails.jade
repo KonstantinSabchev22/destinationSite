@@ -15,14 +15,15 @@ block content
                         p.card-text= place.howToReach
                         h5.card-title Тел.
                         p.card-text= place.phone
-                        if user
-                            if isFavorite
-                                button.btn.btn-outline-primary(onclick="toggleFavorite('#{place.id}', this)") Премахни от любими
-                            else
-                                button.btn.btn-primary(onclick="toggleFavorite('#{place.id}', this)") Дибави в любими
-                            if user.role == 'admin'
-                                a.btn.btn-primary(href='/places/' + place.id + '/edit') Промени
-                        a.btn.btn-secondary(href='/places') Назад
+                        .button-container
+                            if user
+                                if isFavorite
+                                    button.btn.btn-outline-primary(onclick="toggleFavorite('#{place.id}', this)") Премахни от любими
+                                else
+                                    button.btn.btn-primary(onclick="toggleFavorite('#{place.id}', this)") Дибави в любими
+                                if user.role == 'admin'
+                                    a.btn.btn-warning(href='/places/' + place.id + '/edit') Промени
+                            a.btn.btn-secondary(href='/places') Назад
     script. 
         async function toggleFavorite(placeId, button) {
             try {

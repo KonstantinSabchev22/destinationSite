@@ -62,13 +62,18 @@ router.get('/:id', async function(req, res, next) {
     if (!place) {
       return res.status(404).send('Place not found');
     }
-
-    const isFavorite = await UserPlaces.findOne({
-      where: {
-        userId: req.user.id,
-        placeId: placeId,
-      }
-    });
+    let isFavorite = false;
+    console.log(req.user);
+    if (req.user){
+      isFavorite = await UserPlaces.findOne({
+        where: {
+          userId: req.user.id,
+          placeId: placeId,
+        }
+      });
+      console.log(isFavorite);
+    }
+    
     res.render('places/placeDetails', { place: place, isFavorite: !!isFavorite });
   } catch (error) {
     next(error);
