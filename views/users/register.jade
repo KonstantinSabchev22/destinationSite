@@ -5,7 +5,8 @@ block content
         .row.justify-content-center
             .col-md-6
                 h2 Регистрация
-                form(id='signupForm')
+                //- Add method='POST' to the form
+                form(id='signupForm', method='POST', action='/users/register')
                     .mb-3
                         label.form-label(for='firstName') Име
                         input.form-control(type='text' id='firstName' name='firstName' required)
@@ -19,16 +20,14 @@ block content
                         label.form-label(for='password') Парола
                         input.form-control(type='password' id='password' name='password' required)
                     .mb-3
-                        label.form-label(for='password') Повтори парола
+                        label.form-label(for='password2') Повтори парола
                         input.form-control(type='password' id='password2' name='password2' required)
                     .mb-3 
                         span#passwordError.error
                     button.btn.btn-primary(type='submit') Регистрация
-    script. 
-        const validatePassword = function(password) {
-            // const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-            // return regex.test(password);
 
+    script.
+        const validatePassword = function(password) {
             const errorList = [];    
             
             const regexOneUpperCase = /[A-Z]/;
@@ -36,12 +35,28 @@ block content
                 errorList.push("at least one uppercase letter");
             }
 
-
             const regexOneLowerCase = /[a-z]/;
             if (!regexOneLowerCase.test(password)) {
-                errorList.push('at least one lowercase ');
-            }    
+                errorList.push('at least one lowercase letter');
+            } 
+
+            const regexOneDigit = /[0-9]/;
+            if (!regexOneDigit.test(password)) {
+                errorList.push('at least one digit');
+            }
+
+            const regexOneSpecialChar = /[@$!%*?&]/;
+            if (!regexOneSpecialChar.test(password)) {
+                errorList.push('at least one special character (@$!%*?&)');
+            }
+
+            if (password.length < 8) {
+                errorList.push('at least 8 characters');
+            }
+
+            return errorList.length === 0 ? true : errorList.join(", ");
         };
+
         document.getElementById("signupForm").addEventListener("submit", async (event) => {
             event.preventDefault();
 
@@ -53,8 +68,11 @@ block content
             let error = document.getElementById("passwordError");
 
             let errorMessage = "";
-            if (!validatePassword(password)) {
-                errorMessage = "The password must be at least 8 symbols and contain at least one uppercase letter, one lowercase letter, one digit and one symbol.";
+
+            // Validate Password
+            let passwordValidation = validatePassword(password);
+            if (passwordValidation !== true) {
+                errorMessage = `Password must have: ${passwordValidation}`;
             }
 
             if (password !== password2) {
@@ -65,4 +83,7 @@ block content
                 error.innerHTML = errorMessage;
                 return;
             }
+
+            // Submit the form directly
+            document.getElementById("signupForm").submit();
         });

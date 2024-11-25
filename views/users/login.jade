@@ -9,10 +9,16 @@ block content
                     .alert.alert-danger(role='alert')
                         | #{message}
                 form(action='/users/login' method='POST')
-                    .mb-3
-                        label.form-label(for='email') Имейл
-                        input.form-control(type='email' id='email' name='email' required)
-                    .mb-3
-                        label.form-label(for='password') Парола
-                        input.form-control(type='password' id='password' name='password' required)
-                    button.btn.btn-primary(type='submit') Влизане
+                    .input-container
+                    i.fa.fa-user.icon
+                    input.input-field(type="text", placeholder="Username", name="usrnm")
+
+                    .input-container
+                    i.fa.fa-envelope.icon
+                    input.input-field(type="text", placeholder="Email", name="email")
+
+                    .input-container
+                    i.fa.fa-key.icon
+                    input.input-field(type="password", placeholder="Password", name="psw")
+
+                    button.btn(type="submit") Register
